@@ -21,10 +21,8 @@ void setup() {
 }
 
 void loop() {
-  dataS(2);
-  //dataS(3);
-  int s;
-  s=0;
+  int s=0;
+  Serial.println("Enter Number Between 1-5 levels");
   s=Serial.parseInt();
   if(s!=0){
   dataS(s);
