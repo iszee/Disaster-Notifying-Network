@@ -42,39 +42,18 @@ void dataS(long cmd){
     Serial.println("data packet sent");
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-void dataSend(){
+void stormSend(){
   
   for(int i=1;i<=5;i++){
-    command =i;
+    storm_cmd =command;
     delay(500);
-    Mirf.send((byte *)&command);
+    Mirf.send((byte *)&storm_cmd);
     
     while(Mirf.isSending()){
     }
     
   }
-  Serial.println("data packet sent");
+  Serial.println("storm data packet sent");
   delay(1000);
 
   
