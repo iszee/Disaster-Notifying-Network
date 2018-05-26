@@ -11,9 +11,9 @@ unsigned long buzTime;
 bool buzMode=false;
 int prevData=0;
 
-long data;
-long tmp2=0;
-long command;
+int data=0;
+int tmp2;
+int command;
 LiquidCrystal lcd(rs, e, d4, d5, d6, d7);
 
 
@@ -21,10 +21,10 @@ void setup() {
    Mirf.spi = &MirfHardwareSpi;
    Mirf.init();
    Mirf.setRADDR((byte *)"serv1");
-   Mirf.payload = sizeof(long);
+   Mirf.payload = sizeof(int);
    Mirf.config();
+   Serial.begin(19200);
    lcd.begin(16, 2);
-   Serial.begin(115200);
    analogWrite(led1,0);
    analogWrite(led2,0);
    analogWrite(led3,0);
@@ -32,7 +32,7 @@ void setup() {
    analogWrite(led5,0);
    analogWrite(buz,0);
    buzMode=false;
-   prevData = 0;
+   
 
 
 }
@@ -47,11 +47,9 @@ void receive(){
   if(!Mirf.isSending() && Mirf.dataReady()){
     Mirf.getData((byte *)&data);
     Mirf.rxFifoEmpty();
-    Serial.print(data);
-    Serial.print(" :: ");
+    //Serial.println(data);
     
-    
-    if((data==5||data==4||data==3||data==2||data==1)&&(prevData!=data)){
+    if((data==5||data==4||data==3||data==2||data==1||data!=0)&&(prevData!=data)){
       Serial.println(data);
       prevData=data;
       dataS(data);
@@ -60,33 +58,38 @@ void receive(){
       delay(100);
       dataS(data);
       delay(100);
+      lcd.setCursor(0, 0);
+      lcd.print(data);
       setLED(data);
+      delay(500);
       
     }
     switch(data){
     case 1:lcd.setCursor(0, 0);lcd.print("WARNING");break;
-    case 2:lcd.setCursor(0, 0);lcd.print("BE AWARE");break;
+    case 2:lcd.setCursor(0, 0);lcd.print("BEWARE");break;
     case 3:lcd.setCursor(0, 0);lcd.print("CAUTION");break;
     case 4:lcd.setCursor(0, 0);lcd.print("DANGER");break;
-    case 5:lcd.setCursor(0, 0);lcd.print("LIFE THREAT");break;
+    case 5:lcd.setCursor(0, 0);lcd.print("LIFE");break;
     
     }
+    
 
   }
   }
   
 
 
-void dataS(long cmd){
+void dataS(int cmd){
     command=cmd;
     delay(500);
     Mirf.send((byte *)&command);
     while(Mirf.isSending()){
     }
-    Serial.println("data packet sent new tx");
+    Serial.print("data packet sent new tx");
+    Serial.println(command);
   }
 
-void setLED(long d){
+void setLED(int d){
   lcd.begin(16, 2);
   buzMode = true;
   buzTime = millis();

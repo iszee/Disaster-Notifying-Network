@@ -6,8 +6,8 @@
 #include <Wire.h>
 
 
-long command;
-long last_command;
+int command;
+int last_command;
 
 
 void setup() {
@@ -15,16 +15,18 @@ void setup() {
   Mirf.spi = &MirfHardwareSpi;  
   Mirf.init(); 
   Mirf.setTADDR((byte *)"serv1");
-  Mirf.payload = sizeof(long);
+  Mirf.payload = sizeof(int);
   Mirf.config(); 
-  Serial.begin(115200);
+  Serial.begin(19200);
+   Serial.println("Enter your msg");
 }
 
 void loop() {
   int s=0;
-  //Serial.println("Enter Your msg: ");
-  //s=Serial.input();
-  s=4;
+ 
+  if(Serial.available()>0){
+  s=Serial.parseInt();
+  }
   if(s!=0){
   dataS(s);
   }
@@ -34,17 +36,21 @@ void loop() {
 
   }
 
-void dataS(long cmd){
+void dataS(int cmd){
     command=cmd;
     //delay(500);
     Mirf.send((byte *)&command);
     while(Mirf.isSending()){
     }
-    Serial.println("data packet sent");
+    Serial.print("data packet sent ");
+    Serial.println(command);
   }
 
+
+
+
 void stormSend(){
-  long storm_cmd;
+  String storm_cmd;
   for(int i=1;i<=5;i++){
     storm_cmd =command;
     delay(500);
