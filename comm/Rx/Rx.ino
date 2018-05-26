@@ -40,6 +40,7 @@ void setup() {
 void loop() {
   receive();
   alarm();
+  delay(500);
   
 }
 

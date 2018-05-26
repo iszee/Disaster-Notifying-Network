@@ -28,7 +28,7 @@ void loop() {
   if(s!=0){
   dataS(s);
   }
-  delay(100);
+  delay(500);
 
 
 
