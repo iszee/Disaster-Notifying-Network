@@ -11,7 +11,10 @@ unsigned long buzTime;
 bool buzMode=false;
 int prevData=0;
 
-//long data;
+//not work with nano
+//change channel,power,speed
+//no errors on rf24 lib
+
 long tmp2=0;
 long command;
 LiquidCrystal lcd(rs, e, d4, d5, d6, d7);
