@@ -24,7 +24,7 @@ void loop() {
   int s=0;
   //Serial.println("Enter Your msg: ");
   //s=Serial.input();
-  s=4;
+  s=1;
   if(s!=0){
   dataS(s);
   }

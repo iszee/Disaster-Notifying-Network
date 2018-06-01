@@ -25,7 +25,7 @@ void setup()
   Serial.begin(115200);
   delay(1000);
   myRadio.begin();  
-  myRadio.setChannel(100); 
+  myRadio.setChannel(105); 
   myRadio.setPALevel(RF24_PA_MAX);
   myRadio.setDataRate( RF24_250KBPS ) ; 
   myRadio.openWritingPipe(addresses[1]);
@@ -48,7 +48,7 @@ void loop()
 //  }
   
   data.level=2;
-  strcpy(data.msg,"run for ur life");
+  strcpy(data.msg,"run for life");
   dataPack(data);
   delay(500);
   
