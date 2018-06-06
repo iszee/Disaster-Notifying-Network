@@ -49,7 +49,7 @@ void receive(){
     Mirf.rxFifoEmpty();
     //Serial.println(data);
     
-    if((data==5||data==4||data==3||data==2||data==1||data!=0)&&(prevData!=data)){
+    if((data==5||data==4||data==3||data==2||data==1||data==0)&&(prevData!=data)){
       Serial.println(data);
       prevData=data;
       dataS(data);
@@ -65,11 +65,12 @@ void receive(){
       
     }
     switch(data){
-    case 1:lcd.setCursor(0, 0);lcd.print("WARNING");break;
-    case 2:lcd.setCursor(0, 0);lcd.print("BEWARE");break;
-    case 3:lcd.setCursor(0, 0);lcd.print("CAUTION");break;
-    case 4:lcd.setCursor(0, 0);lcd.print("DANGER");break;
-    case 5:lcd.setCursor(0, 0);lcd.print("LIFE");break;
+    case 0:lcd.setCursor(3, 0);lcd.print("           ");break;
+    case 1:lcd.setCursor(3, 0);lcd.print("ADVISORY");break;
+    case 2:lcd.setCursor(3, 0);lcd.print("CAUTION");break;
+    case 3:lcd.setCursor(3, 0);lcd.print("WARNING !");break;
+    case 4:lcd.setCursor(4, 0);lcd.print("DANGER !!");break;
+    case 5:lcd.setCursor(2, 0);lcd.print("RUN FOR LIFE!!");break;
     
     }
     
@@ -93,12 +94,14 @@ void setLED(int d){
   lcd.begin(16, 2);
   buzMode = true;
   buzTime = millis();
+  analogWrite(led1,0);analogWrite(led2,0);analogWrite(led3,0);analogWrite(led4,0);analogWrite(led5,0);
   switch(d){
-    case 1:analogWrite(led1,255);break;
-    case 2:analogWrite(led1,255);analogWrite(led2,255);break;
-    case 3:analogWrite(led1,255);analogWrite(led2,255);analogWrite(led3,255);break;
-    case 4:analogWrite(led1,255);analogWrite(led2,255);analogWrite(led3,255);analogWrite(led4,255);break;
-    case 5:analogWrite(led1,255);analogWrite(led2,255);analogWrite(led3,255);analogWrite(led4,255);analogWrite(led5,255);break;
+    case 0:analogWrite(led1,0);analogWrite(led2,0);analogWrite(led3,0);analogWrite(led4,0);analogWrite(led5,0);break;
+    case 1:analogWrite(led1,130);break;
+    case 2:analogWrite(led1,130);analogWrite(led2,130);break;
+    case 3:analogWrite(led1,130);analogWrite(led2,130);analogWrite(led3,130);break;
+    case 4:analogWrite(led1,130);analogWrite(led2,130);analogWrite(led3,130);analogWrite(led4,130);break;
+    case 5:analogWrite(led1,130);analogWrite(led2,130);analogWrite(led3,130);analogWrite(led4,130);analogWrite(led5,130);break;
     
     }
   
@@ -142,6 +145,11 @@ void alarm(){
     }
     else if(data==5){
       analogWrite(buz,255);
+      delay(100);
+      analogWrite(buz,0);
+    }
+    else if(data==0){
+      analogWrite(buz,0);
       delay(100);
       analogWrite(buz,0);
     }

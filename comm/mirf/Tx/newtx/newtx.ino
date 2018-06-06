@@ -22,12 +22,12 @@ void setup() {
 }
 
 void loop() {
-  int s=0;
+  int s=8080;
  
-  if(Serial.available()>0){
+  if(Serial.available()){
   s=Serial.parseInt();
   }
-  if(s!=0){
+  if(s!=8080){
   dataS(s);
   }
   delay(100);
